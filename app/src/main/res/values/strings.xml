@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">News Recommender</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="hello_world">Hello world!</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="demo_news_title">Airbus đăng ký sáng chế phi cơ bay từ Hà Nội đến Thành Phố Hồ Chí Minh trong 12 phút</string>
+    <string name="demo_news_description">Nếu chiếc máy bay này được đưa vào sử dụng, nó sẽ là một bước tiến lớn của ngành hàng không dân dụng thế giới.</string>
+    <string name="category_highlight">Nổi Bật</string>
+    <string name="category_technology">Công Nghệ</string>
+    <string name="category_entertainment">Giải Trí</string>
+    <string name="category_business">Kinh Doanh</string>
+    <string name="setting_change_categories">Change Categories</string>
+    <string name="setting_muti_select_list_key">pref_muti_select_category_key</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_change_category">Change Category Activity</string>
+</resources>
