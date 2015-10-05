@@ -201,9 +201,9 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         news3.put(NewsEntry.COLUMN_RATING,300);
 
         long index2 = db.insert(NewsEntry.TABLE_NAME,null,news3);
-        db.insert(NewsEntry.TABLE_NAME,null,news3);
-        db.insert(NewsEntry.TABLE_NAME,null,news2);
-        db.insert(NewsEntry.TABLE_NAME,null,news1);
+//        db.insert(NewsEntry.TABLE_NAME,null,news3);
+//        db.insert(NewsEntry.TABLE_NAME,null,news2);
+//        db.insert(NewsEntry.TABLE_NAME,null,news1);
 
 
     }
