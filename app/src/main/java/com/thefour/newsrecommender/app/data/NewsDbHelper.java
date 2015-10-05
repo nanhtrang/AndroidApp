@@ -32,7 +32,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         final String SQL_CREATE_NEWS_TABLE = "Create TABLE " +
                 NewsEntry.TABLE_NAME + " ("+
-                NewsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                NewsEntry._ID + " INTEGER PRIMARY KEY , "+
                 NewsEntry.COLUMN_TITLE + " TEXT NOT NULL, "+
                 NewsEntry.COLUMN_CATEGORY_ID + " INTEGER NOT NULL, "+
                 NewsEntry.COLUMN_SOURCE_ID + " INTEGER NOT NULL, "+
@@ -49,7 +49,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
 
 
         final String SQL_CREATE_CATEGORY_TABLE = "Create TABLE "+ CategoryEntry.TABLE_NAME + "("+
-                CategoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                CategoryEntry._ID + " INTEGER PRIMARY KEY , "+
                 CategoryEntry.COLUMN_CATEGORY_NAME + " TEXT NOT NULL, "+
                 CategoryEntry.COLUMN_ICON_RESOURCE + " INTEGER NOT NULL, "+
                 CategoryEntry.COLUMN_IMAGE_RESOURCE+ " INTEGER NOT NULL, " +
@@ -59,7 +59,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         Log.d(LOG_TAG, "QUANG QUANG DEBUG: this is Sqlcommand to create Category table: " + SQL_CREATE_CATEGORY_TABLE);
 
         final String SQL_CREATE_SOURCE_TABLE = "Create TABLE "+ NewsSourceEntry.TABLE_NAME + "("+
-                NewsSourceEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                NewsSourceEntry._ID + " INTEGER PRIMARY KEY , "+
                 NewsSourceEntry.COLUMN_SOURCE_NAME + " TEXT NOT NULL, "+
                 NewsSourceEntry.COLUMN_LOGO_URL + " TEXT NOT NULL, "+
                 NewsSourceEntry.COLUMN_LOGO_FILE_PATH + " TEXT, "+
@@ -71,6 +71,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_SOURCE_TABLE);
 
         ContentValues contentValues = new ContentValues();
+        contentValues.put(CategoryEntry._ID,"01");
         contentValues.put(CategoryEntry.COLUMN_CATEGORY_NAME, mContext.getString(R.string.category_highlight));
         contentValues.put(CategoryEntry.COLUMN_ICON_RESOURCE,R.drawable.news_icon);
         contentValues.put(CategoryEntry.COLUMN_IMAGE_RESOURCE, R.drawable.news_image);
@@ -81,6 +82,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         }
 
         ContentValues contentValues1 = new ContentValues();
+        contentValues1.put(CategoryEntry._ID,"02");
         contentValues1.put(CategoryEntry.COLUMN_CATEGORY_NAME,mContext.getString(R.string.category_business));
         contentValues1.put(CategoryEntry.COLUMN_ICON_RESOURCE,R.drawable.business_icon);
         contentValues1.put(CategoryEntry.COLUMN_IMAGE_RESOURCE, R.drawable.business_image);
@@ -88,6 +90,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         db.insert(CategoryEntry.TABLE_NAME, null, contentValues1);
 
         ContentValues contentValues2 = new ContentValues();
+        contentValues2.put(CategoryEntry._ID,"03");
         contentValues2.put(CategoryEntry.COLUMN_CATEGORY_NAME,mContext.getString(R.string.category_entertainment));
         contentValues2.put(CategoryEntry.COLUMN_IMAGE_RESOURCE,R.drawable.entertainment_image);
         contentValues2.put(CategoryEntry.COLUMN_ICON_RESOURCE, R.drawable.entertainment_icon);
@@ -95,6 +98,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         db.insert(CategoryEntry.TABLE_NAME, null, contentValues2);
 
         ContentValues contentValues3 = new ContentValues();
+        contentValues3.put(CategoryEntry._ID,"04");
         contentValues3.put(CategoryEntry.COLUMN_CATEGORY_NAME,mContext.getString(R.string.category_technology));
         contentValues3.put(CategoryEntry.COLUMN_ICON_RESOURCE,R.drawable.technology_icon);
         contentValues3.put(CategoryEntry.COLUMN_IMAGE_RESOURCE, R.drawable.technology_image);
@@ -104,6 +108,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         //insert fake data to News source table
 
         ContentValues source1 = new ContentValues();
+        source1.put(NewsSourceEntry._ID,"01");
         source1.put(NewsSourceEntry.COLUMN_SOURCE_NAME , "VnExpress");
         source1.put(NewsSourceEntry.COLUMN_LOGO_URL, "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/v/t1.0-1/p56x56/1377372_612208245488345_284676873_n.jpg?oh=cafb3c8b5ca51051adfa018ecacf37c8&oe=5649AEA0&__gda__=1447184298_ae81baa3e86096898d5c90c86ec5c400");
         source1.putNull(NewsSourceEntry.COLUMN_LOGO_FILE_PATH);
@@ -111,6 +116,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         db.insert(NewsSourceEntry.TABLE_NAME, null, source1);
 
         ContentValues source2 = new ContentValues();
+        source2.put(NewsSourceEntry._ID,"02");
         source2.put(NewsSourceEntry.COLUMN_SOURCE_NAME,"Thanh Niên");
         source2.put(NewsSourceEntry.COLUMN_LOGO_URL, "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xft1/v/t1.0-1/10442564_10152486130851251_1078779416261664405_n.jpg?oh=97d3306d10d180e51b24cfa721517e4e&oe=564DC3CB&__gda__=1447647326_f8d24fd50384e9f3a7c20141ccf3477c");
         source2.putNull(NewsSourceEntry.COLUMN_LOGO_FILE_PATH);
@@ -123,47 +129,18 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         final int COLUMN_INDEX_ID = 0;
         final int COLUMN_INDEX_NAME=1;
 
-        int categoryHighlightId=-1;
-        int categoryEntertainmentId=-1;
-        int categoryBusinessId=-1;
-        int categoryTechId=-1;
+        int categoryHighlightId=1;
+        int categoryEntertainmentId=3;
+        int categoryBusinessId=2;
+        int categoryTechId=4;
 
-        for(int i=0;i< category.getCount();++i){
-            category.moveToPosition(i);
-            String categoryName = category.getString(COLUMN_INDEX_NAME);
-            switch (categoryName){
-                case "Nổi Bật":
-                    categoryHighlightId= category.getInt(COLUMN_INDEX_ID);
-                    break;
-                case "Giải Trí":
-                    categoryEntertainmentId=category.getInt(COLUMN_INDEX_ID);
-                    break;
-                case "Kinh Doanh":
-                    categoryBusinessId = category.getInt(COLUMN_INDEX_ID);
-                    break;
-                case "Công Nghệ":
-                    categoryTechId=category.getInt(COLUMN_INDEX_ID);
-                    break;
-            }
-        }
         //this code for initialize Source ID
-        int newsSourceVnExpressId = -1;
-        int newsSourceThanhNienId = -1;
-        Cursor source = db.rawQuery("SELECT * FROM "+NewsSourceEntry.TABLE_NAME,null);
-        for(int i=0;i<source.getCount();++i){
-            source.moveToPosition(i);
-            String sourceName = source.getString(source.getColumnIndex(NewsSourceEntry.COLUMN_SOURCE_NAME));
-            switch (sourceName){
-                case "VnExpress":
-                    newsSourceVnExpressId = source.getInt(source.getColumnIndex(NewsSourceEntry._ID));
-                    break;
-                case "Thanh Niên":
-                    newsSourceThanhNienId = source.getInt(source.getColumnIndex(NewsSourceEntry._ID));
-                    break;
-            }
-        }
+        int newsSourceVnExpressId = 1;
+        int newsSourceThanhNienId = 2;
+
         // start insert some fake date news
         ContentValues news1 = new ContentValues();
+        news1.put(NewsEntry._ID,"1");
         news1.put(NewsEntry.COLUMN_TITLE,"Hy Lạp chính thức được cứu");
         news1.put(NewsEntry.COLUMN_CONTENT_URL,"http://kinhdoanh.vnexpress.net/tin-tuc/quoc-te/hy-lap-chinh-thuc-duoc-cuu-3262290.html");
         news1.put(NewsEntry.COLUMN_CATEGORY_ID,categoryBusinessId);
@@ -177,6 +154,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         long index = db.insert(NewsEntry.TABLE_NAME, null, news1);
 
         ContentValues news2 = new ContentValues();
+        news2.put(NewsEntry._ID,2);
         news2.put(NewsEntry.COLUMN_TITLE,"Máy bay không người lái có thể bị bắn hạ bởi… âm thanh");
         news2.put(NewsEntry.COLUMN_CONTENT_URL,"http://www.thanhnien.com.vn/cong-nghe-thong-tin/may-bay-khong-nguoi-lai-co-the-bi-ban-ha-boi-am-thanh-595700.html");
         news2.put(NewsEntry.COLUMN_CATEGORY_ID,categoryTechId);
@@ -190,6 +168,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         long index1 = db.insert(NewsEntry.TABLE_NAME,null,news2);
 
         ContentValues news3 = new ContentValues();
+        news3.put(NewsEntry._ID,3);
         news3.put(NewsEntry.COLUMN_TITLE,"Bộ tứ siêu đẳng - bom xịt của mùa phim hè 2015");
         news3.put(NewsEntry.COLUMN_CONTENT_URL,"http://giaitri.vnexpress.net/tin-tuc/phim/diem-phim/bo-tu-sieu-dang-bom-xit-cua-mua-phim-he-2015-3260989.html");
         news3.put(NewsEntry.COLUMN_CATEGORY_ID,categoryEntertainmentId);
@@ -200,10 +179,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         news3.put(NewsEntry.COLUMN_TIME, "2015-08-11 9:15");
         news3.put(NewsEntry.COLUMN_RATING,300);
 
-        long index2 = db.insert(NewsEntry.TABLE_NAME,null,news3);
-        db.insert(NewsEntry.TABLE_NAME,null,news3);
-        db.insert(NewsEntry.TABLE_NAME,null,news2);
-        db.insert(NewsEntry.TABLE_NAME,null,news1);
+        
 
 
     }
