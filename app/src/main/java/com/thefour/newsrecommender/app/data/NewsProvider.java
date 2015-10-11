@@ -100,6 +100,7 @@ public class NewsProvider extends ContentProvider {
             default:
                 throw new UnsupportedOperationException("Unknown Uri: "+uri.toString());
         }
+        retCursor.setNotificationUri(getContext().getContentResolver(), uri);
         return retCursor;
     }
 
