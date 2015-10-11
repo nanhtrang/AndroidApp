@@ -10,6 +10,7 @@ import java.util.Set;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.provider.SyncStateContract;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -146,6 +147,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             startActivityForResult(intent, REQUEST_CATEGORIES_CHANGE_CODE);
             return true;
         }
+        if(id==R.id.action_update){
+            UpdateListNewsTask updateTask = new UpdateListNewsTask(this);
+            updateTask.execute("http://10.0.2.2:8084/RankedListNews/toprankedlistnews");
+
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -199,7 +205,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             SharedPreferences setting = getSharedPreferences(MainActivity.PREFS_NAME,MODE_PRIVATE);
             Set<String> userSelectedCategory = new HashSet<String>();
               userSelectedCategory = setting.getStringSet(INTERESTING_CATEGORY,null);
-
+            if(userSelectedCategory==null){
+                return 0;
+            }
             return userSelectedCategory.size();
 
         }

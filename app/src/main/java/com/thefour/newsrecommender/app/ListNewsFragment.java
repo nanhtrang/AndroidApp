@@ -98,7 +98,7 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
         int categoryId = getArguments().getInt(ARG_SECTION_CATEGORY_ID);
         Uri newsUri = NewsEntry.buildNewsCategoryId(categoryId);
         //Uri newsUri = NewsEntry.CONTENT_URI;
-        String sortOrder = NewsEntry.COLUMN_TIME+" ASC";
+        String sortOrder = NewsEntry.COLUMN_RATING+" DESC";
         Log.i(LOG_TAG,"News in category Uri: "+newsUri);
 
         return new CursorLoader(getActivity(),newsUri,NEWS_COLUMN,null,null,sortOrder);

@@ -10,4 +10,11 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     public ApplicationTest() {
         super(Application.class);
     }
+
+    public void updateListNewsTaskTest(){
+        String url = "http://localhost:8084/RankedListNews/toprankedlistnews?offset=10";
+        UpdateListNewsTask updateListNewsTask =new UpdateListNewsTask(getContext());
+        updateListNewsTask.doInBackground(url);
+
+    }
 }

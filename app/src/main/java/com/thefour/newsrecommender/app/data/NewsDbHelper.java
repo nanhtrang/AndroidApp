@@ -51,8 +51,8 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_CATEGORY_TABLE = "Create TABLE "+ CategoryEntry.TABLE_NAME + "("+
                 CategoryEntry._ID + " INTEGER PRIMARY KEY , "+
                 CategoryEntry.COLUMN_CATEGORY_NAME + " TEXT NOT NULL, "+
-                CategoryEntry.COLUMN_ICON_RESOURCE + " INTEGER NOT NULL, "+
-                CategoryEntry.COLUMN_IMAGE_RESOURCE+ " INTEGER NOT NULL, " +
+                CategoryEntry.COLUMN_ICON_RESOURCE + " INTEGER, "+
+                CategoryEntry.COLUMN_IMAGE_RESOURCE+ " INTEGER, " +
                 " UNIQUE (" + CategoryEntry.COLUMN_CATEGORY_NAME  +
                  ") ON CONFLICT REPLACE" +
                 ");";
@@ -60,8 +60,8 @@ public class NewsDbHelper extends SQLiteOpenHelper {
 
         final String SQL_CREATE_SOURCE_TABLE = "Create TABLE "+ NewsSourceEntry.TABLE_NAME + "("+
                 NewsSourceEntry._ID + " INTEGER PRIMARY KEY , "+
-                NewsSourceEntry.COLUMN_SOURCE_NAME + " TEXT NOT NULL, "+
-                NewsSourceEntry.COLUMN_LOGO_URL + " TEXT NOT NULL, "+
+                NewsSourceEntry.COLUMN_SOURCE_NAME + " TEXT, "+
+                NewsSourceEntry.COLUMN_LOGO_URL + " TEXT, "+
                 NewsSourceEntry.COLUMN_LOGO_FILE_PATH + " TEXT, "+
                 " UNIQUE ("+NewsSourceEntry.COLUMN_SOURCE_NAME+") ON CONFLICT REPLACE"+
                 ");";
@@ -76,10 +76,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         contentValues.put(CategoryEntry.COLUMN_ICON_RESOURCE,R.drawable.news_icon);
         contentValues.put(CategoryEntry.COLUMN_IMAGE_RESOURCE, R.drawable.news_image);
 
-        long insertCategory = db.insert(CategoryEntry.TABLE_NAME, null, contentValues);
-        if(insertCategory==-1){
-
-        }
+        //long insertCategory = db.insert(CategoryEntry.TABLE_NAME, null, contentValues);
 
         ContentValues contentValues1 = new ContentValues();
         contentValues1.put(CategoryEntry._ID,"02");
@@ -87,7 +84,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         contentValues1.put(CategoryEntry.COLUMN_ICON_RESOURCE,R.drawable.business_icon);
         contentValues1.put(CategoryEntry.COLUMN_IMAGE_RESOURCE, R.drawable.business_image);
 
-        db.insert(CategoryEntry.TABLE_NAME, null, contentValues1);
+        //db.insert(CategoryEntry.TABLE_NAME, null, contentValues1);
 
         ContentValues contentValues2 = new ContentValues();
         contentValues2.put(CategoryEntry._ID,"03");
@@ -95,7 +92,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         contentValues2.put(CategoryEntry.COLUMN_IMAGE_RESOURCE,R.drawable.entertainment_image);
         contentValues2.put(CategoryEntry.COLUMN_ICON_RESOURCE, R.drawable.entertainment_icon);
 
-        db.insert(CategoryEntry.TABLE_NAME, null, contentValues2);
+        //db.insert(CategoryEntry.TABLE_NAME, null, contentValues2);
 
         ContentValues contentValues3 = new ContentValues();
         contentValues3.put(CategoryEntry._ID,"04");
@@ -103,7 +100,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         contentValues3.put(CategoryEntry.COLUMN_ICON_RESOURCE,R.drawable.technology_icon);
         contentValues3.put(CategoryEntry.COLUMN_IMAGE_RESOURCE, R.drawable.technology_image);
 
-        db.insert(CategoryEntry.TABLE_NAME,null,contentValues3);
+        //db.insert(CategoryEntry.TABLE_NAME,null,contentValues3);
 
         //insert fake data to News source table
 
@@ -151,7 +148,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         news1.put(NewsEntry.COLUMN_TIME, "2015-08-11 14:59");
         news1.put(NewsEntry.COLUMN_RATING, 1995);
 
-        long index = db.insert(NewsEntry.TABLE_NAME, null, news1);
+        //long index = db.insert(NewsEntry.TABLE_NAME, null, news1);
 
         ContentValues news2 = new ContentValues();
         news2.put(NewsEntry._ID,2);
@@ -165,7 +162,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         news2.put(NewsEntry.COLUMN_TIME, "2015-08-11 15:25");
         news2.put(NewsEntry.COLUMN_RATING,500);
 
-        long index1 = db.insert(NewsEntry.TABLE_NAME,null,news2);
+        //long index1 = db.insert(NewsEntry.TABLE_NAME,null,news2);
 
         ContentValues news3 = new ContentValues();
         news3.put(NewsEntry._ID,3);
@@ -173,13 +170,13 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         news3.put(NewsEntry.COLUMN_CONTENT_URL,"http://giaitri.vnexpress.net/tin-tuc/phim/diem-phim/bo-tu-sieu-dang-bom-xit-cua-mua-phim-he-2015-3260989.html");
         news3.put(NewsEntry.COLUMN_CATEGORY_ID,categoryEntertainmentId);
         news3.put(NewsEntry.COLUMN_SOURCE_ID,newsSourceVnExpressId);
-        news3.put(NewsEntry.COLUMN_DESC,"Kịch bản dài dòng và tẻ nhạt, kỹ xảo sơ sài, các pha hành động ít ỏi, diễn viên không thu hút bằng dàn sao cũ khiến phim siêu anh hùng mới nhất dựa trên truyện tranh Marvel gây thất vọng.\n");
-        news3.put(NewsEntry.COLUMN_IMAGE_URL, "http://c1.f9.img.vnecdn.net/2015/08/10/604383ac-6bb3-4649-a500-0d5-6118-1439185082.jpg\n");
+        news3.put(NewsEntry.COLUMN_DESC,"Kịch bản dài dòng và tẻ nhạt, kỹ xảo sơ sài, các pha hành động ít ỏi, diễn viên không thu hút bằng dàn sao cũ khiến phim siêu anh hùng mới nhất dựa trên truyện tranh Marvel gây thất vọng.");
+        news3.put(NewsEntry.COLUMN_IMAGE_URL, "http://c1.f9.img.vnecdn.net/2015/08/10/604383ac-6bb3-4649-a500-0d5-6118-1439185082.jpg");
         news3.putNull(NewsEntry.COLUMN_IMAGE_PATH);
         news3.put(NewsEntry.COLUMN_TIME, "2015-08-11 9:15");
         news3.put(NewsEntry.COLUMN_RATING,300);
+        //long index2 = db.insert(NewsEntry.TABLE_NAME,null,news3);
 
-        
 
 
     }

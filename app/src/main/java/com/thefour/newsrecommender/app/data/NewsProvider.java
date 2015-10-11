@@ -264,10 +264,10 @@ public class NewsProvider extends ContentProvider {
     {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
+        db.beginTransaction();
+        int returnCount = 0;
         switch (match) {
             case NEWS:
-                db.beginTransaction();
-                int returnCount = 0;
                 try {
                     for (ContentValues value : values) {
                         long _id = db.insert(NewsContract.NewsEntry.TABLE_NAME, null, value);
@@ -280,6 +280,19 @@ public class NewsProvider extends ContentProvider {
                     db.endTransaction();
                 }
                 getContext().getContentResolver().notifyChange(uri, null);
+                return returnCount;
+            case CATEGORY:
+                try{
+                    for(ContentValues value:values){
+                        long _id = db.insert(NewsContract.CategoryEntry.TABLE_NAME,null,value);
+                        if (_id != -1){
+                            returnCount++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+                }finally {
+                    db.endTransaction();
+                }
                 return returnCount;
             default:
                 return super.bulkInsert(uri, values);

@@ -38,6 +38,7 @@ public class CategoryPickerFragment extends Fragment implements LoaderManager.Lo
     CursorAdapter mAdapter;
     ListView mListView;
     Set<String> mInterestingCategory;
+    Cursor mFullCategories;
 
     private static final String[] CATEGORY_COLUMNS = {NewsContract.CategoryEntry._ID, NewsContract.CategoryEntry.COLUMN_CATEGORY_NAME} ;
     private static final int COLUMN_ID_INDEX = 0;
@@ -57,6 +58,14 @@ public class CategoryPickerFragment extends Fragment implements LoaderManager.Lo
                 null,
                 new String[]{NewsContract.CategoryEntry.COLUMN_CATEGORY_NAME, NewsContract.CategoryEntry._ID},
                 new int[]{R.id.textViewCategoryTitle,R.id.textViewCategoryIdPicker});
+        mFullCategories = getContext().getContentResolver()
+                .query(NewsContract.CategoryEntry.CONTENT_URI,CATEGORY_COLUMNS,null,null,null);
+        if(mFullCategories.getCount()==0){
+            //Todo get categories from server
+            UpdateCategoriesTask updateListCategoriesTask = new UpdateCategoriesTask(getContext());
+            updateListCategoriesTask.execute("http://10.0.2.2:8084/RankedListNews/categories");
+
+        }
     }
 
     @Override
@@ -119,10 +128,10 @@ public class CategoryPickerFragment extends Fragment implements LoaderManager.Lo
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //if user cancels changing interest catergories just finish
                 if(getActivity().getIntent().getBooleanExtra(CHANGE_CATEGORIES,false)){
                     getActivity().finish();
-                }else{
+                }else{// this is the fist time app run, select full categories as default.
                     for(int i = 0; i < mListView.getCount();i++)
                     {
                         View view = mListView.getChildAt(i);
