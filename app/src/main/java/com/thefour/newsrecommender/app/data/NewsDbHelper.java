@@ -178,6 +178,11 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         //long index2 = db.insert(NewsEntry.TABLE_NAME,null,news3);
 
 
+//        db.insert(NewsEntry.TABLE_NAME,null,news3);
+//        db.insert(NewsEntry.TABLE_NAME,null,news2);
+//        db.insert(NewsEntry.TABLE_NAME,null,news1);
+
+
 
     }
 
