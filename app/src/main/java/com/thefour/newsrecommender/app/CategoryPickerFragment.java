@@ -119,7 +119,7 @@ public class CategoryPickerFragment extends Fragment implements LoaderManager.Lo
                 if(getActivity().getIntent().getBooleanExtra(CHANGE_CATEGORIES,false)){
                     getActivity().finish();
                 }else{
-                    getActivity().recreate();
+                    getActivity().finish();
                 }
             }
         });
