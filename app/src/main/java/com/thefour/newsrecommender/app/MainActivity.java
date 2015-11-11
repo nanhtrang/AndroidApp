@@ -148,8 +148,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             return true;
         }
         if(id==R.id.action_update){
+            UpdateCategoriesTask updateCategoriesTask = new UpdateCategoriesTask(this);
+            updateCategoriesTask.execute("http://10.0.2.2:8080/RankedListNews/categories");
             UpdateListNewsTask updateTask = new UpdateListNewsTask(this);
-            updateTask.execute("http://10.0.2.2:8084/RankedListNews/toprankedlistnews");
+            updateTask.execute("http://10.0.2.2:8080/RankedListNews/toprankedlistnews?offset=0&limit=100");
+//            updateTask.execute("http://10.0.2.2:8080/RankedListNews/toprankedlistnews?offset=100&limit=100");
+//            updateTask.execute("http://10.0.2.2:8080/RankedListNews/toprankedlistnews?offset=200&limit=100");
 
         }
 

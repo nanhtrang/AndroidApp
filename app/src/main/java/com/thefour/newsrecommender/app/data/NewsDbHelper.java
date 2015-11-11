@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.thefour.newsrecommender.app.R;
+import com.thefour.newsrecommender.app.UpdateCategoriesTask;
 import com.thefour.newsrecommender.app.data.NewsContract.NewsEntry;
 import com.thefour.newsrecommender.app.data.NewsContract.CategoryEntry;
 import com.thefour.newsrecommender.app.data.NewsContract.NewsSourceEntry;
@@ -84,7 +85,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         contentValues1.put(CategoryEntry.COLUMN_ICON_RESOURCE,R.drawable.business_icon);
         contentValues1.put(CategoryEntry.COLUMN_IMAGE_RESOURCE, R.drawable.business_image);
 
-        //db.insert(CategoryEntry.TABLE_NAME, null, contentValues1);
+        db.insert(CategoryEntry.TABLE_NAME, null, contentValues1);
 
         ContentValues contentValues2 = new ContentValues();
         contentValues2.put(CategoryEntry._ID,"03");
@@ -92,7 +93,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         contentValues2.put(CategoryEntry.COLUMN_IMAGE_RESOURCE,R.drawable.entertainment_image);
         contentValues2.put(CategoryEntry.COLUMN_ICON_RESOURCE, R.drawable.entertainment_icon);
 
-        //db.insert(CategoryEntry.TABLE_NAME, null, contentValues2);
+        db.insert(CategoryEntry.TABLE_NAME, null, contentValues2);
 
         ContentValues contentValues3 = new ContentValues();
         contentValues3.put(CategoryEntry._ID,"04");
@@ -100,7 +101,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         contentValues3.put(CategoryEntry.COLUMN_ICON_RESOURCE,R.drawable.technology_icon);
         contentValues3.put(CategoryEntry.COLUMN_IMAGE_RESOURCE, R.drawable.technology_image);
 
-        //db.insert(CategoryEntry.TABLE_NAME,null,contentValues3);
+        db.insert(CategoryEntry.TABLE_NAME, null, contentValues3);
 
         //insert fake data to News source table
 
@@ -148,7 +149,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         news1.put(NewsEntry.COLUMN_TIME, "2015-08-11 14:59");
         news1.put(NewsEntry.COLUMN_RATING, 1995);
 
-        //long index = db.insert(NewsEntry.TABLE_NAME, null, news1);
+        long index = db.insert(NewsEntry.TABLE_NAME, null, news1);
 
         ContentValues news2 = new ContentValues();
         news2.put(NewsEntry._ID,2);
@@ -162,7 +163,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         news2.put(NewsEntry.COLUMN_TIME, "2015-08-11 15:25");
         news2.put(NewsEntry.COLUMN_RATING,500);
 
-        //long index1 = db.insert(NewsEntry.TABLE_NAME,null,news2);
+        long index1 = db.insert(NewsEntry.TABLE_NAME,null,news2);
 
         ContentValues news3 = new ContentValues();
         news3.put(NewsEntry._ID,3);
@@ -175,13 +176,14 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         news3.putNull(NewsEntry.COLUMN_IMAGE_PATH);
         news3.put(NewsEntry.COLUMN_TIME, "2015-08-11 9:15");
         news3.put(NewsEntry.COLUMN_RATING,300);
-        //long index2 = db.insert(NewsEntry.TABLE_NAME,null,news3);
+        long index2 = db.insert(NewsEntry.TABLE_NAME,null,news3);
 
 
 //        db.insert(NewsEntry.TABLE_NAME,null,news3);
 //        db.insert(NewsEntry.TABLE_NAME,null,news2);
 //        db.insert(NewsEntry.TABLE_NAME,null,news1);
-
+        UpdateCategoriesTask updateCategoriesTask = new UpdateCategoriesTask(mContext);
+        updateCategoriesTask.execute("http://10.0.2.2:8084/RanknedListNews/categories");
 
 
     }

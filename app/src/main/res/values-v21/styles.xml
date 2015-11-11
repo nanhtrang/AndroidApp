@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!--<style name="AppTheme" parent="Theme">-->
+        <!-- Customize your theme here. -->
+        <!--<item name="android:colorPrimary">@color/primary</item>-->
+        <!--<item name="android:colorPrimaryDark">@color/primary_dark</item>-->
+        <!--<item name="android:colorAccent">@color/accent</item>-->
+
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:actionBarTabBarStyle">@style/MyActionBar.TabBar</item>
+        <!-- Support library compatibility -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary</item>
+        <item name="colorAccent">@color/accent</item>
+        <!--<item name="statusBarColor">@color/primary</item>-->
+
+        <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name="actionBarTabBarStyle">@style/MyActionBar.TabBar</item>
+        <item name="android:navigationBarColor">@color/black</item>
+
+    </style>
+</resources>

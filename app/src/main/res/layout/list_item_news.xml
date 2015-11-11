@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="10dp">
+    android:layout_marginBottom="10dp"
+    android:showDividers="end">
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="180dp"
         android:id="@+id/imageViewNews"
         android:src="@drawable/airplanewallpaper3"
         android:scaleType="fitXY" />
@@ -17,12 +18,14 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/demo_news_title"
         android:id="@+id/textViewNewsTitle"
-        android:padding="2dp" />
+        android:padding="2dp"
+        android:textSize="18dp" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp">
 
         <FrameLayout
             android:layout_width="wrap_content"

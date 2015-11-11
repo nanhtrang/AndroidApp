@@ -27,8 +27,8 @@ public class DownloadImageTask extends AsyncTask<String,Void ,Bitmap>
         try{
             InputStream inputStream = new URL(urldisplay).openStream();
             desImage = BitmapFactory.decodeStream(inputStream);
-        }catch(Exception e){
-            Log.e(LOG_TAG,e.getMessage());
+        }catch(Exception e) {
+            Log.e(LOG_TAG, e.getMessage());
             e.printStackTrace();
         }
         return desImage;
@@ -37,6 +37,7 @@ public class DownloadImageTask extends AsyncTask<String,Void ,Bitmap>
     @Override
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
-        mImageView.setImageBitmap(bitmap);
+        //if(bitmap!=null)
+            mImageView.setImageBitmap(bitmap);
     }
 }

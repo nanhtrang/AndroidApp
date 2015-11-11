@@ -63,7 +63,7 @@ public class CategoryPickerFragment extends Fragment implements LoaderManager.Lo
         if(mFullCategories.getCount()==0){
             //Todo get categories from server
             UpdateCategoriesTask updateListCategoriesTask = new UpdateCategoriesTask(getContext());
-            updateListCategoriesTask.execute("http://10.0.2.2:8084/RankedListNews/categories");
+            updateListCategoriesTask.execute("http://10.0.2.2:8080/RankedListNews/categories");
 
         }
     }

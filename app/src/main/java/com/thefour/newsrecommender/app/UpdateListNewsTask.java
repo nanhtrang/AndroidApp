@@ -96,10 +96,10 @@ public class UpdateListNewsTask extends AsyncTask<String ,Void, Void> {
         final String OWN_TITLE = "title";
         final String OWN_CONTENT_URL = "contenturl";
         final String OWN_CATEGORY_ID="categoryid";
-        final String OWN_SOURCE_ID="sourceid";
+        final String OWN_SOURCE_ID="magazineid";
         final String OWN_DESCRIPTION="description";
         final String OWN_IMAGE_URL="imageurl";
-        final String OWN_TIME="time";
+        final String OWN_TIME="newstime";
         final String OWN_RATING = "rating";
 
         try{
