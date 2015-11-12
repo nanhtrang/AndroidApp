@@ -151,7 +151,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             UpdateCategoriesTask updateCategoriesTask = new UpdateCategoriesTask(this);
             updateCategoriesTask.execute("http://10.0.2.2:8080/RankedListNews/categories");
             UpdateListNewsTask updateTask = new UpdateListNewsTask(this);
-            updateTask.execute("http://10.0.2.2:8080/RankedListNews/toprankedlistnews?offset=0&limit=100");
+            updateTask.execute("http://10.0.2.2:8080/RankedListNews/toprankedlistnews?offset=0&limit=75");
 //            updateTask.execute("http://10.0.2.2:8080/RankedListNews/toprankedlistnews?offset=100&limit=100");
 //            updateTask.execute("http://10.0.2.2:8080/RankedListNews/toprankedlistnews?offset=200&limit=100");
 
@@ -198,8 +198,14 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             //return ListNewsFragment.newInstance(position + 1);
-
-            return ListNewsFragment.newInstance(position+1,Integer.parseInt(mCategoryIdArray[position]));
+            if(position==0){
+                return ListNewsFragment.newInstance(0,0);//special case, return highlight
+            }
+            //---this is original values before add the highlight tab at the first section
+            // section number start at 1, but the mCategoryIdArray start at 0.
+            //return ListNewsFragment.newInstance(position+1,Integer.parseInt(mCategoryIdArray[position]));
+            //----ending backup code the new code for adding highlight tab below
+            return ListNewsFragment.newInstance(position,Integer.parseInt(mCategoryIdArray[position-1]));
         }
 
         @Override
@@ -212,15 +218,16 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             if(userSelectedCategory==null){
                 return 0;
             }
-            return userSelectedCategory.size();
+            return userSelectedCategory.size()+1;//+1 for the Hightlight tab which is always there
 
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             Locale l = Locale.getDefault();
-
-            int categoryId = Integer.parseInt(mCategoryIdArray[position]);
+            if(position ==0 )
+                return getString(R.string.news_tab_hightlight);
+            int categoryId = Integer.parseInt(mCategoryIdArray[position-1]);//because the first position is always highlight tab
             for(int i=0;i< mFullCategory.getCount();++i){
                 mFullCategory.moveToPosition(i);
                 if(mFullCategory.getInt(0)==categoryId){

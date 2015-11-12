@@ -16,6 +16,7 @@
     <string name="category_business">Kinh Doanh</string>
     <string name="setting_change_categories">Change Categories</string>
     <string name="setting_muti_select_list_key">pref_muti_select_category_key</string>
+    <string name="news_tab_hightlight">Nổi bật</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -96,7 +96,13 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         int categoryId = getArguments().getInt(ARG_SECTION_CATEGORY_ID);
-        Uri newsUri = NewsEntry.buildNewsCategoryId(categoryId);
+        Uri newsUri;
+        if(categoryId==0)//speacial category this is highlight section
+        {
+            newsUri = NewsEntry.CONTENT_URI;
+        }else {
+            newsUri = NewsEntry.buildNewsCategoryId(categoryId);
+        }
         //Uri newsUri = NewsEntry.CONTENT_URI;
         String sortOrder = NewsEntry.COLUMN_RATING+" DESC";
         Log.i(LOG_TAG,"News in category Uri: "+newsUri);

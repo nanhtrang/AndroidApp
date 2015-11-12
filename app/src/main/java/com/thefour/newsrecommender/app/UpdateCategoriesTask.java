@@ -114,8 +114,9 @@ public class UpdateCategoriesTask extends AsyncTask<String, Void, Void> {
             if(cVVector.size()!=0){
                 ContentValues[] cvArray = new ContentValues[cVVector.size()];
                 cVVector.toArray(cvArray);
-                long oldCategoriesDeleted = mContext.getContentResolver()
-                        .delete(NewsContract.CategoryEntry.CONTENT_URI,null,null);
+                long oldCategoriesDeleted = 0;
+//                          mContext.getContentResolver()
+//                        .delete(NewsContract.CategoryEntry.CONTENT_URI,null,null);
                 long categoriesInserted = mContext.getContentResolver()
                         .bulkInsert(NewsContract.CategoryEntry.CONTENT_URI,cvArray);
                 Log.i(LOG_TAG,"UpdateCategoriesTask() running "+

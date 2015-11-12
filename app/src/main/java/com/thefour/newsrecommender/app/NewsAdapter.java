@@ -9,6 +9,7 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 
 
 /**
@@ -33,8 +34,8 @@ public class NewsAdapter extends CursorAdapter {
         holder.mTitleView.setText(cursor.getString(ListNewsFragment.COL_TITLE));
         holder.mSourceView.setText(cursor.getString(ListNewsFragment.COL_SOURCE_NAME));
         holder.mTimeView.setText(cursor.getString(ListNewsFragment.COL_TIME));
-
-        new DownloadImageTask(holder.mNewsImageView).execute(cursor.getString(ListNewsFragment.COL_IMAGE_URL));
+        Glide.with(context).load(cursor.getString(ListNewsFragment.COL_IMAGE_URL)).into(holder.mNewsImageView);
+        //new DownloadImageTask(holder.mNewsImageView).execute(cursor.getString(ListNewsFragment.COL_IMAGE_URL));
 
     }
 

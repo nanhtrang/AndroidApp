@@ -146,7 +146,8 @@ public class UpdateListNewsTask extends AsyncTask<String ,Void, Void> {
             if(cVVector.size()>0){
                 ContentValues[] cvArray = new ContentValues[cVVector.size()];
                 cVVector.toArray(cvArray);
-                int rowsDeleted = mContext.getContentResolver().delete(NewsContract.NewsEntry.CONTENT_URI, null, null);
+                int rowsDeleted = 0;
+                        //mContext.getContentResolver().delete(NewsContract.NewsEntry.CONTENT_URI, null, null);
                 Log.d(LOG_TAG,"UpdateListNewsTask() running, deleting old data......\n"+rowsDeleted+" rows deleted");
                 int rowsInserted = mContext.getContentResolver()
                         .bulkInsert(NewsContract.NewsEntry.CONTENT_URI,cvArray);
