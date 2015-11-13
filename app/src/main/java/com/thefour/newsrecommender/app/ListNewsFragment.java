@@ -13,8 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.thefour.newsrecommender.app.data.NewsContract.NewsEntry;
 import com.thefour.newsrecommender.app.data.NewsContract.CategoryEntry;
 import com.thefour.newsrecommender.app.data.NewsContract.NewsSourceEntry;
@@ -57,11 +60,13 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
     private static final String LOG_TAG = ListNewsFragment.class.getSimpleName();
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private static final String ARG_SECTION_CATEGORY_ID = "section_category_id";
+    private static final String ARG_CATEGORY_ID = "section_category_id";
 
     private ListView mListView;
     private NewsAdapter mAdapter;
     private int mPosition;
+    int mCategoryId;
+    private boolean mLoadingMore;
     public ListNewsFragment() {
     }
 
@@ -73,7 +78,7 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
         ListNewsFragment fragment = new ListNewsFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        args.putInt(ARG_SECTION_CATEGORY_ID,categoryId);
+        args.putInt(ARG_CATEGORY_ID,categoryId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -88,14 +93,14 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+        mCategoryId = this.getArguments().getInt(ARG_CATEGORY_ID);
         mAdapter = new NewsAdapter(getActivity(),null,0);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        int categoryId = getArguments().getInt(ARG_SECTION_CATEGORY_ID);
+        int categoryId = getArguments().getInt(ARG_CATEGORY_ID);
         Uri newsUri;
         if(categoryId==0)//speacial category this is highlight section
         {
@@ -114,6 +119,7 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         Log.d(LOG_TAG,"onLoadFinished(): "+data.getCount()+" records loaded");
         mAdapter.swapCursor(data);
+        mLoadingMore=false;
     }
 
     @Override
@@ -124,7 +130,7 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-
+        mLoadingMore=true;
         View rootView = inflater.inflate(R.layout.fragment_main,container,false);
         mListView = (ListView)rootView.findViewById(R.id.listView_news);
         mListView.setAdapter(mAdapter);
@@ -139,6 +145,32 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
                 startActivity(intent);
                 mPosition= position;
                 mListView.smoothScrollToPosition(mPosition);
+            }
+        });
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                //what is the bottom iten that is visible
+                int lastInScreen = firstVisibleItem + visibleItemCount;
+                //is the bottom item visible & not loading more already ? Load more !
+                if ((lastInScreen == totalItemCount) && !(mLoadingMore)) {
+//                    Thread thread = new Thread(null, loadMoreListItems);
+//                    thread.start();
+                    //Toast.makeText(getContext(), "Loading more news...", Toast.LENGTH_SHORT).show();
+                    mLoadingMore = true;
+                    UpdateListNewsTask updateListNews = new UpdateListNewsTask(getContext());
+                    String url = getContext().getString(R.string.update_list_news_by_category_id);
+                    url= url.replaceAll("categoryid=0", "categoryid=" + Integer.toString(mCategoryId));
+                    url= url.replaceAll("offset=0","offset="+Integer.toString(totalItemCount));
+                    //Toast.makeText(getContext(),url,Toast.LENGTH_SHORT).show();
+                    updateListNews.execute(url);
+                    Log.d(LOG_TAG,"update category url: "+url);
+                }
             }
         });
 

@@ -2,12 +2,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    tools:context=".MainActivity$PlaceholderFragment">
+    tools:context=".MainActivity$PlaceholderFragment"
+    android:paddingLeft="7dp"
+    android:paddingRight="7dp"
+    android:background="@color/blue_white">
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/listView_news">
+        android:id="@+id/listView_news"
+        android:divider="@color/blue_white"
+        android:dividerHeight="7dp">
 
     </ListView>
 </FrameLayout>
