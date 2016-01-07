@@ -11,6 +11,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,8 +67,9 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final String ARG_CATEGORY_ID = "section_category_id";
 
-    private ListView mListView;
-    private NewsAdapter mAdapter;
+    private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLayoutManager;
+    private RecyclerCursorAdapter mAdapter;
     private int mPosition;
     int mCategoryId;
     private boolean mLoadingMore;
@@ -98,7 +101,7 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCategoryId = this.getArguments().getInt(ARG_CATEGORY_ID);
-        mAdapter = new NewsAdapter(getActivity(),null,0);
+
     }
 
     @Override
@@ -134,72 +137,111 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        mLoadingMore=true;
-        View rootView = inflater.inflate(R.layout.fragment_main,container,false);
-        mListView = (ListView)rootView.findViewById(R.id.listView_news);
-        mListView.setAdapter(mAdapter);
+        mLoadingMore = true;
+        View rootView = inflater.inflate(R.layout.recycle_view_news, container, false);
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycle_view_news);
+        mRecyclerView.setHasFixedSize(true);
+        mAdapter = new RecyclerCursorAdapter(null, getActivity());
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // only for gingerbread and newer versions
-            mListView.setNestedScrollingEnabled(true);
+            //mListView.setNestedScrollingEnabled(true);
         }
 
-        //onItemClickListener
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mRecyclerView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Cursor cursor = mAdapter.getCursor();
-                cursor.moveToPosition(position);
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(cursor.getString(COL_CONTENT_URI)));
-                startActivity(intent);
-                mPosition= position;
-                mListView.smoothScrollToPosition(mPosition);
+            public void onClick(View view) {
+
             }
         });
-        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-            }
-
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                //what is the bottom iten that is visible
-                int lastInScreen = firstVisibleItem + visibleItemCount;
-                //is the bottom item visible & not loading more already ? Load more !
-                if ((lastInScreen == totalItemCount) && !(mLoadingMore)) {
-//                    Thread thread = new Thread(null, loadMoreListItems);
-//                    thread.start();
-                    //Toast.makeText(getContext(), "Loading more news...", Toast.LENGTH_SHORT).show();
-                    mLoadingMore = true;
-                    //end of listnews loading more
-                    if(Utilities.isOnline(getContext())){
-                        UpdateListNewsTask updateListNews = new UpdateListNewsTask(getContext());
-                        String url = getContext().getString(R.string.update_list_news_by_category_id);
-                        url= url.replaceAll("categoryid=0", "categoryid=" + Integer.toString(mCategoryId));
-                        url= url.replaceAll("offset=0","offset="+Integer.toString(totalItemCount));
-                        //Toast.makeText(getContext(),url,Toast.LENGTH_SHORT).show();
-                        updateListNews.execute(url);
-                        Log.d(LOG_TAG,"update category url: "+url);
-                    }else{
-                        Toast.makeText(getContext(),getContext().getString(R.string.no_internet_connection_message),Toast.LENGTH_SHORT).show();
-                        mLoadingMore = false;
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) //check for scroll down
+                {
+                    int visibleItemCount = mLayoutManager.getChildCount();
+                    int totalItemCount = mLayoutManager.getItemCount();
+                    int pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
+
+                    if (!mLoadingMore) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                            mLoadingMore = true;
+                            Log.v("...", "Last Item Wow !");
+                            //Do pagination.. i.e. fetch new data
+                            //Toast.makeText(getContext(), "loading is done", Toast.LENGTH_SHORT).show();
+                            if (Utilities.isOnline(getContext())) {
+                                UpdateListNewsTask updateListNews = new UpdateListNewsTask(getContext());
+                                String url = getContext().getString(R.string.update_list_news_by_category_id);
+                                url = url.replaceAll("categoryid=0", "categoryid=" + Integer.toString(mCategoryId));
+                                url = url.replaceAll("offset=0", "offset=" + Integer.toString(totalItemCount));
+                                //Toast.makeText(getContext(),url,Toast.LENGTH_SHORT).show();
+                                updateListNews.execute(url);
+                                Log.d(LOG_TAG, "update category url: " + url);
+                            } else {
+                                Toast.makeText(getContext(), getContext().getString(R.string.no_internet_connection_message), Toast.LENGTH_SHORT).show();
+                                mLoadingMore = false;
+                            }
+                        }
                     }
-
                 }
             }
         });
-
         return rootView;
     }
+        //onItemClickListener
+//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Cursor cursor = mAdapter.getCursor();
+//                cursor.moveToPosition(position);
+//                Intent intent = new Intent(Intent.ACTION_VIEW);
+//                intent.setData(Uri.parse(cursor.getString(COL_CONTENT_URI)));
+//                startActivity(intent);
+//                mPosition= position;
+//                mListView.smoothScrollToPosition(mPosition);
+//            }
+//        });
+//        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(AbsListView view, int scrollState) {
+//
+//            }
+//
+//            @Override
+//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//                //what is the bottom iten that is visible
+//                int lastInScreen = firstVisibleItem + visibleItemCount;
+//                //is the bottom item visible & not loading more already ? Load more !
+//                if ((lastInScreen == totalItemCount) && !(mLoadingMore)) {
+////                    Thread thread = new Thread(null, loadMoreListItems);
+////                    thread.start();
+//                    //Toast.makeText(getContext(), "Loading more news...", Toast.LENGTH_SHORT).show();
+//                    mLoadingMore = true;
+//                    //end of listnews loading more
+//                    if(Utilities.isOnline(getContext())){
+//                        UpdateListNewsTask updateListNews = new UpdateListNewsTask(getContext());
+//                        String url = getContext().getString(R.string.update_list_news_by_category_id);
+//                        url= url.replaceAll("categoryid=0", "categoryid=" + Integer.toString(mCategoryId));
+//                        url= url.replaceAll("offset=0","offset="+Integer.toString(totalItemCount));
+//                        //Toast.makeText(getContext(),url,Toast.LENGTH_SHORT).show();
+//                        updateListNews.execute(url);
+//                        Log.d(LOG_TAG,"update category url: "+url);
+//                    }else{
+//                        Toast.makeText(getContext(),getContext().getString(R.string.no_internet_connection_message),Toast.LENGTH_SHORT).show();
+//                        mLoadingMore = false;
+//                    }
+//
+//                }
+//            }
+//        });
+//
+//        return rootView;
+//    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 }

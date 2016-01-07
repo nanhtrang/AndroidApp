@@ -1,23 +1,28 @@
 package com.thefour.newsrecommender.app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.thefour.newsrecommender.app.data.NewsContract;
 
+import java.net.URL;
 import java.util.List;
 
 /**
  * Created by Quang Quang on 1/7/2016.
  */
-public class RecyclerCursorAdapter extends RecyclerView.Adapter<RecyclerCursorAdapter.ViewHolder>{
+public class RecyclerCursorAdapter
+        extends RecyclerView.Adapter<RecyclerCursorAdapter.ViewHolder> {
 
     final int VIEW_TYPE_COUNT = 2;
     final int VIEW_TYPE_HIGHLIGHT =1;
@@ -25,21 +30,38 @@ public class RecyclerCursorAdapter extends RecyclerView.Adapter<RecyclerCursorAd
 
     private Cursor mCursor;
     private Context mContext;
+    private OnItemClickListener mItemClickListener;
+
+
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public final ImageView mNewsImageView;
         public final ImageView mNewsLogoView;
         public final TextView mTitleView;
         public final TextView mSourceView;
         public final TextView mTimeView;
+        public Cursor mCursor;
+        public Context mContext;
 
-        public ViewHolder(View view) {
+        public ViewHolder(View view, Cursor dataset, Context context) {
             super(view);
-            mNewsImageView = (ImageView)view.findViewById(R.id.imageViewNews);
-            mNewsLogoView = (ImageView)view.findViewById(R.id.imageViewLogo);
-            mTitleView = (TextView)view.findViewById(R.id.textViewNewsTitle);
-            mSourceView = (TextView)view.findViewById(R.id.textViewSource);
-            mTimeView = (TextView)view.findViewById(R.id.textViewTime);
+            mCursor = dataset;
+            mContext = context;
+            mNewsImageView = (ImageView) view.findViewById(R.id.imageViewNews);
+            mNewsLogoView = (ImageView) view.findViewById(R.id.imageViewLogo);
+            mTitleView = (TextView) view.findViewById(R.id.textViewNewsTitle);
+            mSourceView = (TextView) view.findViewById(R.id.textViewSource);
+            mTimeView = (TextView) view.findViewById(R.id.textViewTime);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    mCursor.moveToPosition(position);
 
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mCursor.getString(ListNewsFragment.COL_CONTENT_URI)));
+                    //Toast.makeText(mContext,"afjdsak;fa"+mCursor.getString(ListNewsFragment.COL_CONTENT_URI),Toast.LENGTH_SHORT).show();
+                    mContext.startActivity(intent);
+                }
+            });
         }
 
     }
@@ -69,7 +91,10 @@ public class RecyclerCursorAdapter extends RecyclerView.Adapter<RecyclerCursorAd
             //inflat list_item_normal_news
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_normal_news,parent,false);
         }
-        ViewHolder viewHolder = new ViewHolder(v);
+
+
+        ViewHolder viewHolder = new ViewHolder(v,mCursor, mContext);
+
         return viewHolder;
     }
 
@@ -105,9 +130,26 @@ public class RecyclerCursorAdapter extends RecyclerView.Adapter<RecyclerCursorAd
         }
     }
 
+    public interface OnItemClickListener{
+        public void onItemClick(View view, int position);
+    }
+
+    public void setOnItemClickListener(final OnItemClickListener onItemClickListener){
+        this.mItemClickListener = onItemClickListener;
+    }
+
+    public void swapCursor(Cursor cursor){
+        mCursor = cursor;
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getItemCount() {
+        if(mCursor==null){
+            return 0;
+        }
         return mCursor.getCount();
     }
+
+
 }
