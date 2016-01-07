@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -334,29 +335,52 @@ public class Main2Activity extends AppCompatActivity {
     void setHeaderImage(int position){
 
         String title = mSectionsPagerAdapter.getPageTitle(position).toString();
-        Drawable drawable = null;
+//        Drawable drawable = null;
+//
+//        Context context = getApplicationContext();
+//        ImageView headerView = mImageHeader;
+//        if (title.equals(getResources().getString(R.string.category_highlight)))  {
+//            drawable= ContextCompat.getDrawable(context, R.drawable.news_image);
+//        } else if (title.equals(getResources().getString(R.string.category_business)))
+//        {
+//            drawable=ContextCompat.getDrawable(context, R.drawable.business_resized);
+//
+//        } else if (title.equals(getResources().getString(R.string.category_education))) {
+//            drawable = ContextCompat.getDrawable(context,R.drawable.books);
+//        } else if (title.equals(getResources().getString(R.string.category_entertainment))) {
+//            drawable = ContextCompat.getDrawable(context,R.drawable.entertainment);
+//        } else if (title.equals(getResources().getString(R.string.category_sport))) {
+//            drawable = ContextCompat.getDrawable(context,R.drawable.sports);
+//        } else if (title.equals(getResources().getString(R.string.category_topical))) {
+//            drawable = ContextCompat.getDrawable(context,R.drawable.news2);
+//        } else if (title.equals(getResources().getString(R.string.category_global))) {
+//            drawable = ContextCompat.getDrawable(context,R.drawable.global);
+//        } else if (title.equals(getResources().getString(R.string.category_science_technology))) {
+//            drawable = ContextCompat.getDrawable(context,R.drawable.science);
+//        }
+//        headerView.setImageDrawable(drawable);
 
         Context context = getApplicationContext();
         ImageView headerView = mImageHeader;
         if (title.equals(getResources().getString(R.string.category_highlight)))  {
-            drawable= ContextCompat.getDrawable(context, R.drawable.news_image);
+            Glide.with(getApplicationContext()).load(R.drawable.news2).fitCenter().into(headerView);
         } else if (title.equals(getResources().getString(R.string.category_business)))
         {
-            drawable=ContextCompat.getDrawable(context, R.drawable.business_resized);
+            Glide.with(getApplicationContext()).load(R.drawable.business_resized).fitCenter().into(headerView);
 
         } else if (title.equals(getResources().getString(R.string.category_education))) {
-            drawable = ContextCompat.getDrawable(context,R.drawable.books);
+            Glide.with(getApplicationContext()).load(R.drawable.books).fitCenter().into(headerView);
         } else if (title.equals(getResources().getString(R.string.category_entertainment))) {
-            drawable = ContextCompat.getDrawable(context,R.drawable.entertainment);
+            Glide.with(getApplicationContext()).load(R.drawable.entertainment).fitCenter().into(headerView);
         } else if (title.equals(getResources().getString(R.string.category_sport))) {
-            drawable = ContextCompat.getDrawable(context,R.drawable.sports);
+            Glide.with(getApplicationContext()).load(R.drawable.sports).fitCenter().into(headerView);
         } else if (title.equals(getResources().getString(R.string.category_topical))) {
-            drawable = ContextCompat.getDrawable(context,R.drawable.news2);
+            Glide.with(getApplicationContext()).load(R.drawable.news_image).fitCenter().into(headerView);
         } else if (title.equals(getResources().getString(R.string.category_global))) {
-            drawable = ContextCompat.getDrawable(context,R.drawable.global);
+            Glide.with(getApplicationContext()).load(R.drawable.global).fitCenter().into(headerView);
         } else if (title.equals(getResources().getString(R.string.category_science_technology))) {
-            drawable = ContextCompat.getDrawable(context,R.drawable.science);
+            Glide.with(getApplicationContext()).load(R.drawable.science).fitCenter().into(headerView);
         }
-        headerView.setImageDrawable(drawable);
+
     }
 }

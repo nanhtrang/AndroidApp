@@ -138,7 +138,11 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
         View rootView = inflater.inflate(R.layout.fragment_main,container,false);
         mListView = (ListView)rootView.findViewById(R.id.listView_news);
         mListView.setAdapter(mAdapter);
-        mListView.setNestedScrollingEnabled(true);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // only for gingerbread and newer versions
+            mListView.setNestedScrollingEnabled(true);
+        }
+
         //onItemClickListener
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

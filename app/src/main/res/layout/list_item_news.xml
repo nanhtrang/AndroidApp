@@ -1,72 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.v7.widget.CardView
     android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:id="@+id/card_view_news_highlight"
+    android:layout_gravity="center"
+    card_view:cardCornerRadius="4dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
 
-    android:contextClickable="false"
-    android:background="@color/white">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:id="@+id/imageViewNews"
-        android:scaleType="fitXY" />
-
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/demo_news_title"
-        android:id="@+id/textViewNewsTitle"
-        android:textSize="15dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp" />
+        android:contextClickable="false"
+        android:background="@color/white">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:id="@+id/imageViewNews"
+            android:scaleType="fitXY" />
 
-        <FrameLayout
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0">
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/imageViewLogo"
-                android:src="@drawable/genk_logo"
-                android:layout_gravity="center_vertical" />
-        </FrameLayout>
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/demo_news_title"
+            android:id="@+id/textViewNewsTitle"
+            android:textSize="15dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp" />
 
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingBottom="2dp"
-            android:paddingLeft="4dp">
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
-            <TextView
+            <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Genk"
-                android:id="@+id/textViewSource"
-                android:textColor="#000000" />
+                android:layout_height="match_parent"
+                android:layout_weight="0">
 
-            <TextView
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/imageViewLogo"
+                    android:src="@drawable/genk_logo"
+                    android:layout_gravity="center_vertical" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="10 hour ago"
-                android:id="@+id/textViewTime" />
+                android:layout_weight="1"
+                android:paddingBottom="2dp"
+                android:paddingLeft="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Genk"
+                    android:id="@+id/textViewSource"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="10 hour ago"
+                    android:id="@+id/textViewTime" />
+            </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
 
-</LinearLayout>
+</android.support.v7.widget.CardView>
