@@ -1,6 +1,8 @@
 package com.thefour.newsrecommender.app;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -18,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.bumptech.glide.util.Util;
 import com.thefour.newsrecommender.app.data.NewsContract.NewsEntry;
 import com.thefour.newsrecommender.app.data.NewsContract.CategoryEntry;
 import com.thefour.newsrecommender.app.data.NewsContract.NewsSourceEntry;
@@ -112,7 +115,7 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
         String sortOrder = NewsEntry.COLUMN_RATING+" DESC";
         Log.i(LOG_TAG,"News in category Uri: "+newsUri);
 
-        return new CursorLoader(getActivity(),newsUri,NEWS_COLUMN,null,null,sortOrder);
+        return new CursorLoader(getActivity(),newsUri,NEWS_COLUMN,null, null,sortOrder);
     }
 
     @Override
@@ -127,6 +130,7 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
         mAdapter.swapCursor(null);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -134,6 +138,7 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
         View rootView = inflater.inflate(R.layout.fragment_main,container,false);
         mListView = (ListView)rootView.findViewById(R.id.listView_news);
         mListView.setAdapter(mAdapter);
+        mListView.setNestedScrollingEnabled(true);
         //onItemClickListener
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -163,13 +168,20 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
 //                    thread.start();
                     //Toast.makeText(getContext(), "Loading more news...", Toast.LENGTH_SHORT).show();
                     mLoadingMore = true;
-                    UpdateListNewsTask updateListNews = new UpdateListNewsTask(getContext());
-                    String url = getContext().getString(R.string.update_list_news_by_category_id);
-                    url= url.replaceAll("categoryid=0", "categoryid=" + Integer.toString(mCategoryId));
-                    url= url.replaceAll("offset=0","offset="+Integer.toString(totalItemCount));
-                    //Toast.makeText(getContext(),url,Toast.LENGTH_SHORT).show();
-                    updateListNews.execute(url);
-                    Log.d(LOG_TAG,"update category url: "+url);
+                    //end of listnews loading more
+                    if(Utilities.isOnline(getContext())){
+                        UpdateListNewsTask updateListNews = new UpdateListNewsTask(getContext());
+                        String url = getContext().getString(R.string.update_list_news_by_category_id);
+                        url= url.replaceAll("categoryid=0", "categoryid=" + Integer.toString(mCategoryId));
+                        url= url.replaceAll("offset=0","offset="+Integer.toString(totalItemCount));
+                        //Toast.makeText(getContext(),url,Toast.LENGTH_SHORT).show();
+                        updateListNews.execute(url);
+                        Log.d(LOG_TAG,"update category url: "+url);
+                    }else{
+                        Toast.makeText(getContext(),getContext().getString(R.string.no_internet_connection_message),Toast.LENGTH_SHORT).show();
+                        mLoadingMore = false;
+                    }
+
                 }
             }
         });

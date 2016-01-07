@@ -3,6 +3,7 @@ package com.thefour.newsrecommender.app;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.content.CursorLoader;
 
@@ -113,13 +114,16 @@ public class CategoryPickerFragment extends Fragment implements LoaderManager.Lo
                         mInterestingCategory.add(textView.getText().toString());
                     }
                 }
-                SharedPreferences setting = getActivity().getSharedPreferences(MainActivity.PREFS_NAME,Context.MODE_PRIVATE);
+                SharedPreferences setting = getActivity().getSharedPreferences(Main2Activity.PREFS_NAME,Context.MODE_PRIVATE);
                 setting.edit().putStringSet("interestingCategory",mInterestingCategory).commit();
                 //getActivity().setContentView(R.layout.fragment_view_pager);
                 if(getActivity().getIntent().getBooleanExtra(CHANGE_CATEGORIES,false)){
                     getActivity().finish();
-                }else{
+                }else{//first time
                     getActivity().finish();
+                    Intent intent = new Intent();
+                    intent.setClass(getContext(),Main2Activity.class);
+                    getContext().startActivity(intent);
                 }
             }
         });
@@ -138,7 +142,7 @@ public class CategoryPickerFragment extends Fragment implements LoaderManager.Lo
                         TextView textView = (TextView)view.findViewById(R.id.textViewCategoryIdPicker);
                         mInterestingCategory.add(textView.getText().toString());
                     }
-                    SharedPreferences setting = getActivity().getSharedPreferences(MainActivity.PREFS_NAME,Context.MODE_PRIVATE);
+                    SharedPreferences setting = getActivity().getSharedPreferences(Main2Activity.PREFS_NAME,Context.MODE_PRIVATE);
                     setting.edit().putStringSet("interestingCategory",mInterestingCategory).commit();
                     getActivity().recreate();
                 }
@@ -149,7 +153,7 @@ public class CategoryPickerFragment extends Fragment implements LoaderManager.Lo
     }
 
     private void initializeCheckbox(){
-        SharedPreferences setting = getActivity().getSharedPreferences(MainActivity.PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences setting = getActivity().getSharedPreferences(Main2Activity.PREFS_NAME, Context.MODE_PRIVATE);
         Set<String> interestingCategory = new HashSet<String>();
         interestingCategory = setting.getStringSet("interestingCategory",null);
         String[] interestingCategoryArray = new String[interestingCategory.size()];

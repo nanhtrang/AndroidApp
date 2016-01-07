@@ -92,7 +92,7 @@ public class UpdateListNewsTask extends AsyncTask<String ,Void, Void> {
 
         // news information
         final String OWN_LIST="news";
-        final String OWN_ID = "id";
+        final String OWN_ID = "idTableNews";
         final String OWN_TITLE = "title";
         final String OWN_CONTENT_URL = "contenturl";
         final String OWN_CATEGORY_ID="categoryid";
