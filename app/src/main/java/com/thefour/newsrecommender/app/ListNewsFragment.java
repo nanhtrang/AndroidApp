@@ -1,7 +1,9 @@
 package com.thefour.newsrecommender.app;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -86,6 +88,7 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         args.putInt(ARG_CATEGORY_ID,categoryId);
         fragment.setArguments(args);
+        Log.d(LOG_TAG,"news ListNewsFragment "+sectionNumber+" "+"categoryID: "+categoryId);
         return fragment;
     }
 
@@ -168,7 +171,11 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
                     int totalItemCount = mLayoutManager.getItemCount();
                     int pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
 
-                    if (!mLoadingMore) {
+                    Context mContext = getContext();
+                    SharedPreferences setting = mContext.getSharedPreferences(Main2Activity.PREFS_NAME, mContext.MODE_PRIVATE);
+                    int totalNewsInDatabase = setting.getInt(Main2Activity.NEWS_COUNT,0);
+                    Log.d(LOG_TAG,"int Category : "+mCategoryId+" total news in database: "+totalNewsInDatabase);
+                    if (!mLoadingMore||totalItemCount<20) {
                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             mLoadingMore = true;
                             Log.v("...", "Last Item Wow !");
@@ -177,8 +184,9 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
                             if (Utilities.isOnline(getContext())) {
                                 UpdateListNewsTask updateListNews = new UpdateListNewsTask(getContext());
                                 String url = getContext().getString(R.string.update_list_news_by_category_id);
-                                url = url.replaceAll("categoryid=0", "categoryid=" + Integer.toString(mCategoryId));
-                                url = url.replaceAll("offset=0", "offset=" + Integer.toString(totalItemCount));
+//                                url = url.replaceAll("categoryid=0", "categoryid=" + Integer.toString(mCategoryId));
+//                                url = url.replaceAll("offset=0", "offset=" + Integer.toString(totalItemCount));
+                                url = url.replaceAll("offset=0", "offset=" + Integer.toString(totalNewsInDatabase));
                                 //Toast.makeText(getContext(),url,Toast.LENGTH_SHORT).show();
                                 updateListNews.execute(url);
                                 Log.d(LOG_TAG, "update category url: " + url);

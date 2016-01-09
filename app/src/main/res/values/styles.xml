@@ -8,8 +8,8 @@
         <!--<item name="android:colorPrimaryDark">@color/primary_dark</item>-->
         <!--<item name="android:colorAccent">@color/accent</item>-->
 
-        <item name="android:actionBarStyle">@style/MyActionBar</item>
-        <item name="android:actionBarTabBarStyle">@style/MyActionBar.TabBar</item>
+        <!--<item name="android:actionBarStyle">@style/MyActionBar</item>-->
+        <!--<item name="android:actionBarTabBarStyle">@style/MyActionBar.TabBar</item>-->
         <!-- Support library compatibility -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>

@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -47,9 +49,11 @@ public class Main2Activity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     private ImageView mImageHeader;
+    private ImageView mImageIconHeader;
     public static final String PREFS_NAME = "MyPrefsFile";
     public static final String INTERESTING_CATEGORY = "interestingCategory";
     public static final String IS_FIRST_RUN = "isFirstRun";
+    public static final String NEWS_COUNT = "total_news_in_database";
     Cursor mFullCategory;
 
     String[] mCategoryIdArray;
@@ -100,7 +104,10 @@ public class Main2Activity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         mImageHeader = (ImageView)findViewById(R.id.image_header);
+        mImageIconHeader = (ImageView)findViewById(R.id.image_icon_header);
+        mImageIconHeader.setVisibility(View.INVISIBLE);
         setHeaderImage(0);
+        //mImageHeader.setColorFilter(Color.argb(100,250,200,100));
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabBar);
         tabLayout.setupWithViewPager(mViewPager);
@@ -178,9 +185,13 @@ public class Main2Activity extends AppCompatActivity {
         }
         if (id == R.id.action_update) {
             UpdateCategoriesTask updateCategoriesTask = new UpdateCategoriesTask(this);
-            updateCategoriesTask.execute("http://10.0.2.2:8080/RankedListNews/categories");
+            String serverNewsUpdateUrl = getString(R.string.update_list_news_by_category_id);
+            String serverCategoriesUpdateUrl = getString(R.string.update_categories_url);
+            //updateCategoriesTask.execute("http://10.0.2.2:8080/RankedListNews/categories");
+            updateCategoriesTask.execute(serverCategoriesUpdateUrl);
             UpdateListNewsTask updateTask = new UpdateListNewsTask(this);
-            updateTask.execute("http://10.0.2.2:8080/RankedListNews/toprankedlistnews?offset=0&limit=75");
+            //updateTask.execute("http://10.0.2.2:8080/RankedListNews/toprankedlistnews?offset=0&limit=75");
+            updateTask.execute(serverNewsUpdateUrl);
 //            updateTask.execute("http://10.0.2.2:8080/RankedListNews/toprankedlistnews?offset=100&limit=100");
 //            updateTask.execute("http://10.0.2.2:8080/RankedListNews/toprankedlistnews?offset=200&limit=100");
 
@@ -362,24 +373,33 @@ public class Main2Activity extends AppCompatActivity {
 
         Context context = getApplicationContext();
         ImageView headerView = mImageHeader;
+        ImageView iconHeaderView = mImageIconHeader;
         if (title.equals(getResources().getString(R.string.category_highlight)))  {
             Glide.with(getApplicationContext()).load(R.drawable.news2).fitCenter().into(headerView);
+            //Glide.with(getApplicationContext()).load(R.drawable.news_icon_red).fitCenter().into(iconHeaderView);
         } else if (title.equals(getResources().getString(R.string.category_business)))
         {
             Glide.with(getApplicationContext()).load(R.drawable.business_resized).fitCenter().into(headerView);
+           // Glide.with(getApplicationContext()).load(R.drawable.business_stock_icon).fitCenter().into(iconHeaderView);
 
         } else if (title.equals(getResources().getString(R.string.category_education))) {
             Glide.with(getApplicationContext()).load(R.drawable.books).fitCenter().into(headerView);
+           // Glide.with(getApplicationContext()).load(R.drawable.eductation_green_icon).fitCenter().into(iconHeaderView);
         } else if (title.equals(getResources().getString(R.string.category_entertainment))) {
             Glide.with(getApplicationContext()).load(R.drawable.entertainment).fitCenter().into(headerView);
+            //Glide.with(getApplicationContext()).load(R.drawable.entertainment_blue_music_icon).fitCenter().into(iconHeaderView);
         } else if (title.equals(getResources().getString(R.string.category_sport))) {
             Glide.with(getApplicationContext()).load(R.drawable.sports).fitCenter().into(headerView);
+            //Glide.with(getApplicationContext()).load(R.drawable.sports_cup_icon).fitCenter().into(iconHeaderView);
         } else if (title.equals(getResources().getString(R.string.category_topical))) {
             Glide.with(getApplicationContext()).load(R.drawable.news_image).fitCenter().into(headerView);
+           // Glide.with(getApplicationContext()).load(R.drawable.news_green_icon).fitCenter().into(iconHeaderView);
         } else if (title.equals(getResources().getString(R.string.category_global))) {
             Glide.with(getApplicationContext()).load(R.drawable.global).fitCenter().into(headerView);
+            //Glide.with(getApplicationContext()).load(R.drawable.global_icon).fitCenter().into(iconHeaderView);
         } else if (title.equals(getResources().getString(R.string.category_science_technology))) {
             Glide.with(getApplicationContext()).load(R.drawable.science).fitCenter().into(headerView);
+            //Glide.with(getApplicationContext()).load(R.drawable.science_icon).fitCenter().into(iconHeaderView);
         }
 
     }

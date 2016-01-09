@@ -9,6 +9,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 
 import java.sql.SQLDataException;
 
@@ -16,6 +17,7 @@ import java.sql.SQLDataException;
  * Created by Quang Quang on 8/12/2015.
  */
 public class NewsProvider extends ContentProvider {
+    public static final String LOG_TAG = "news_provider";
     public static final int NEWS = 100;
     public static final int NEWS_WITH_CATEGORY=101;
     //Not need for now
@@ -27,11 +29,11 @@ public class NewsProvider extends ContentProvider {
     static{
         sNewsByCategoryIdAndSourceIdQueryBuilder = new SQLiteQueryBuilder();
         sNewsByCategoryIdAndSourceIdQueryBuilder.setTables(
-                NewsContract.NewsEntry.TABLE_NAME + " INNER JOIN " +
+                NewsContract.NewsEntry.TABLE_NAME + " LEFT JOIN " +
                         NewsContract.CategoryEntry.TABLE_NAME +
                         " ON (" + NewsContract.NewsEntry.TABLE_NAME + "." + NewsContract.NewsEntry.COLUMN_CATEGORY_ID +
                         " = " + NewsContract.CategoryEntry.TABLE_NAME + "." + NewsContract.CategoryEntry._ID +
-                        ") INNER JOIN " + NewsContract.NewsSourceEntry.TABLE_NAME + " ON (" +
+                        ") LEFT JOIN " + NewsContract.NewsSourceEntry.TABLE_NAME + " ON (" +
                         NewsContract.NewsEntry.TABLE_NAME + "." + NewsContract.NewsEntry.COLUMN_SOURCE_ID + " = " +
                         NewsContract.NewsSourceEntry.TABLE_NAME + "." + NewsContract.NewsSourceEntry._ID+")"
         );
@@ -73,7 +75,13 @@ public class NewsProvider extends ContentProvider {
             case NEWS:
 //                retCursor = mOpenHelper.getReadableDatabase().query(NewsContract.NewsEntry.TABLE_NAME,
 //                        projection,selection,selectionArgs,null,null,sortOrder);
+
+//                retCursor = mOpenHelper.getReadableDatabase().query(NewsContract.NewsEntry.TABLE_NAME,
+//                        null,selection,selectionArgs,null,null,sortOrder);
+                Log.d(LOG_TAG,"sql selection of NEWS uri: "+uri.toString()+" |" + selection);
+
                 retCursor = sNewsByCategoryIdAndSourceIdQueryBuilder.query(mOpenHelper.getReadableDatabase(),projection,selection,selectionArgs,null,null,sortOrder);
+                Log.d(LOG_TAG,"returnCursor NEWS count: "+retCursor.getCount());
                 break;
             case NEWS_WITH_CATEGORY:
                 retCursor= getNewsByCategory(uri,projection,sortOrder);
@@ -86,6 +94,7 @@ public class NewsProvider extends ContentProvider {
                         null,
                         null,
                         sortOrder) ;
+                Log.d(LOG_TAG,"returnCursor CATEGORY count: "+retCursor.getCount());
                 break;
 
             case SOURCE:
