@@ -2,6 +2,7 @@ package com.thefour.newsrecommender.app;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -41,11 +42,13 @@ public class UpdateCategoriesTask extends AsyncTask<String, Void, Void> {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
 
+
         //categoriesJson contain raw JSON response as a String
         String categoriesJsonStr = null;
 
         try{
             //Construct the URL for query
+
             URL url = new URL(params[0]);
             urlConnection = (HttpURLConnection)url.openConnection();
             urlConnection.setRequestMethod("GET");

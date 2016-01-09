@@ -29,7 +29,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/demo_news_title"
                 android:id="@+id/textViewNewsTitle"
                 android:padding="5dp"
                 android:textSize="14dp"/>

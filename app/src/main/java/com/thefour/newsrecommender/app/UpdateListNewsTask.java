@@ -43,10 +43,15 @@ public class UpdateListNewsTask extends AsyncTask<String ,Void, Void> {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
 
+        SharedPreferences setting = mContext.getSharedPreferences(Main2Activity.PREFS_NAME,mContext.MODE_PRIVATE);
+        int totalNewsInDatabase = setting.getInt(Main2Activity.NEWS_COUNT, 0);
+        String urlString = params[0];
+        urlString = urlString.replaceAll("offset=0", "offset=" + Integer.toString(totalNewsInDatabase));
+
         // Will contain the raw JSON response as a string.
         String listNewsJsonStr = null;
         try{
-            final String LISTNEWS_URL = params[0];
+            final String LISTNEWS_URL = urlString;
             Uri uri = Uri.parse(LISTNEWS_URL);
             URL url = new URL(uri.toString());
             Log.d(LOG_TAG,"uri connect server: "+url.toString());
@@ -153,11 +158,11 @@ public class UpdateListNewsTask extends AsyncTask<String ,Void, Void> {
                 Log.d(LOG_TAG,"UpdateListNewsTask() running, deleting old data......\n"+rowsDeleted+" rows deleted");
                 int rowsInserted = mContext.getContentResolver()
                         .bulkInsert(NewsContract.NewsEntry.CONTENT_URI,cvArray);
-                SharedPreferences setting = mContext.getSharedPreferences(Main2Activity.PREFS_NAME, mContext.MODE_PRIVATE);
+
                 int totalCount = setting.getInt(Main2Activity.NEWS_COUNT, 0);
                 totalCount+=rowsInserted;
                 setting.edit().putInt(Main2Activity.NEWS_COUNT,totalCount).commit();
-                totalCount = setting.getInt(Main2Activity.NEWS_COUNT,0);
+
                 Date now = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 Log.d(LOG_TAG,"UPdateListNewsTasking's running, "+rowsInserted+ " rows inserted");

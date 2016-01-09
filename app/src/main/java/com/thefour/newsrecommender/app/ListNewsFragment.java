@@ -190,7 +190,6 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
                                 String url = getContext().getString(R.string.update_list_news_by_category_id);
 //                                url = url.replaceAll("categoryid=0", "categoryid=" + Integer.toString(mCategoryId));
 //                                url = url.replaceAll("offset=0", "offset=" + Integer.toString(totalItemCount));
-                                url = url.replaceAll("offset=0", "offset=" + Integer.toString(totalNewsInDatabase));
                                 //Toast.makeText(getContext(),url,Toast.LENGTH_SHORT).show();
                                 updateListNews.execute(url);
                                 Log.d(LOG_TAG, "update category url: " + url);

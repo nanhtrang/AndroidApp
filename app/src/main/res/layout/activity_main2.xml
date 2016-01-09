@@ -8,14 +8,6 @@
     android:fitsSystemWindows="true"
     tools:context="com.thefour.newsrecommender.app.Main2Activity">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="-30dp"
-        android:elevation="@dimen/abc_action_bar_stacked_max_height"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:clickable="true" />
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -79,6 +71,14 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="-30dp"
+        android:elevation="@dimen/abc_action_bar_stacked_max_height"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:clickable="true" />
 
 
     <!--<android.support.design.widget.FloatingActionButton-->
