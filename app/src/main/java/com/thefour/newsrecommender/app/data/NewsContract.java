@@ -23,7 +23,7 @@ public class NewsContract  {
     public static final String PATH_CATEGORY = "category";
     public static final String PATH_NEWS_SOURCE = "source";
 
-    public static final int STAND_OUT_RATING = 40000;
+    public static final int STAND_OUT_RATING = 540;//40000 for database local
 
 
 

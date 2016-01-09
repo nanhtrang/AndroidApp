@@ -88,6 +88,7 @@ public class Main2Activity extends AppCompatActivity {
             setting.edit().putBoolean(IS_FIRST_RUN, false).commit();
             //getSupportFragmentManager().beginTransaction().add(R.id.main_container, new CategoryPickerFragment()).commit();
             Intent intent = new Intent(getBaseContext(), ChangeCategoryActivity.class);
+            finish();
             startActivity(intent);
         }
 

@@ -75,6 +75,7 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
     private int mPosition;
     int mCategoryId;
     private boolean mLoadingMore;
+    private int mTotalNewsInDatabase;
     public ListNewsFragment() {
     }
 
@@ -104,6 +105,8 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCategoryId = this.getArguments().getInt(ARG_CATEGORY_ID);
+        SharedPreferences setting = getActivity().getPreferences(getActivity().MODE_PRIVATE);
+        mTotalNewsInDatabase = setting.getInt(Main2Activity.NEWS_COUNT,0);
 
     }
 
@@ -127,6 +130,8 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         Log.d(LOG_TAG,"onLoadFinished(): "+data.getCount()+" records loaded");
+
+
         mAdapter.swapCursor(data);
         mLoadingMore=false;
     }
@@ -174,8 +179,7 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
                     Context mContext = getContext();
                     SharedPreferences setting = mContext.getSharedPreferences(Main2Activity.PREFS_NAME, mContext.MODE_PRIVATE);
                     int totalNewsInDatabase = setting.getInt(Main2Activity.NEWS_COUNT,0);
-                    Log.d(LOG_TAG,"int Category : "+mCategoryId+" total news in database: "+totalNewsInDatabase);
-                    if (!mLoadingMore||totalItemCount<20) {
+                    if (!mLoadingMore || totalItemCount<4) {
                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             mLoadingMore = true;
                             Log.v("...", "Last Item Wow !");
