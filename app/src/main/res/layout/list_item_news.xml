@@ -6,7 +6,7 @@
     android:id="@+id/card_view_news_highlight"
     android:layout_gravity="center"
     android:layout_marginBottom="6dp"
-    card_view:cardCornerRadius="4dp"
+    card_view:cardCornerRadius="2dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -39,7 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp">
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -67,7 +68,8 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:id="@+id/textViewSource"
-                    android:textColor="#000000" />
+                    android:textColor="#000000"
+                    android:text="Tuổi Trẻ" />
 
                 <TextView
                     android:layout_width="wrap_content"

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import java.util.List;
 public class RecyclerCursorAdapter
         extends RecyclerView.Adapter<RecyclerCursorAdapter.ViewHolder> {
 
+    private static final String LOG_TAG = RecyclerCursorAdapter.class.getSimpleName() ;
     final int VIEW_TYPE_COUNT = 2;
     final int VIEW_TYPE_HIGHLIGHT =1;
     final int VIEW_TYPE_NORMAL =0;
@@ -100,9 +102,12 @@ public class RecyclerCursorAdapter
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        mCursor.moveToPosition(position);
         holder.mTitleView.setText(mCursor.getString(ListNewsFragment.COL_TITLE));
         holder.mSourceView.setText(mCursor.getString(ListNewsFragment.COL_SOURCE_NAME));
+
         String time = mCursor.getString(ListNewsFragment.COL_TIME);
+        //Log.d(LOG_TAG, "onBindViewHolder: "+mCursor.getString(ListNewsFragment.COL_TITLE)+"\nsource: "+mCursor.getString(ListNewsFragment.COL_SOURCE_NAME));
         //very stupid simplify time format
         //TODO write the format method for time "10 minutes ago" or "2 days ago"
         time = time.replaceAll("2015","");

@@ -132,7 +132,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         //insert fake data to News source table
 
         ContentValues source1 = new ContentValues();
-        source1.put(NewsSourceEntry._ID,"02");
+        source1.put(NewsSourceEntry._ID,"2");
         source1.put(NewsSourceEntry.COLUMN_SOURCE_NAME, "VnExpress");
         source1.put(NewsSourceEntry.COLUMN_LOGO_URL, "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/v/t1.0-1/p56x56/1377372_612208245488345_284676873_n.jpg?oh=cafb3c8b5ca51051adfa018ecacf37c8&oe=5649AEA0&__gda__=1447184298_ae81baa3e86096898d5c90c86ec5c400");
         source1.putNull(NewsSourceEntry.COLUMN_LOGO_FILE_PATH);
@@ -140,7 +140,7 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         db.insert(NewsSourceEntry.TABLE_NAME, null, source1);
 
         ContentValues source2 = new ContentValues();
-        source2.put(NewsSourceEntry._ID,"01");
+        source2.put(NewsSourceEntry._ID,"1");
         source2.put(NewsSourceEntry.COLUMN_SOURCE_NAME, "Thanh Niên");
         source2.put(NewsSourceEntry.COLUMN_LOGO_URL, "https://scontent-hkg3-1.xx.fbcdn.net/hphotos-xft1/v/t1.0-9/10442564_10152486130851251_1078779416261664405_n.jpg?oh=4e5530f79151b2a5994a5f7596b25744&oe=56F6547B");
         source2.putNull(NewsSourceEntry.COLUMN_LOGO_FILE_PATH);
@@ -148,11 +148,12 @@ public class NewsDbHelper extends SQLiteOpenHelper {
         db.insert(NewsSourceEntry.TABLE_NAME, null, source2);
 
         ContentValues source3 = new ContentValues();
-        source2.put(NewsSourceEntry._ID, "03");
+        source2.put(NewsSourceEntry._ID, "3");
         source2.put(NewsSourceEntry.COLUMN_SOURCE_NAME, "Tuổi Trẻ");
         source2.put(NewsSourceEntry.COLUMN_LOGO_URL,"https://scontent-hkg3-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/421556_10151753274755744_270652857_n.png?oh=90d602765a66a7cf332db1920414434f&oe=56BD7D4F" );
         source2.putNull(NewsSourceEntry.COLUMN_LOGO_FILE_PATH);
 
+        db.insert(NewsSourceEntry.TABLE_NAME, null, source3);
 
 //        //this code for initialize CategoryId
 //        Cursor category = db.query(CategoryEntry.TABLE_NAME,new String[]{CategoryEntry._ID,CategoryEntry.COLUMN_CATEGORY_NAME},null,null,null,null,null);
