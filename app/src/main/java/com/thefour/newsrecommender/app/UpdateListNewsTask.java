@@ -96,7 +96,7 @@ public class UpdateListNewsTask extends AsyncTask<String ,Void, Void> {
                 }
             }
         }
-
+        //parse Json
         // news information
         final String OWN_LIST="news";
         final String OWN_ID = "id";
