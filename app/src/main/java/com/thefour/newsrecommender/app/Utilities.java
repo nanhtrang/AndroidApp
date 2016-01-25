@@ -1,8 +1,13 @@
 package com.thefour.newsrecommender.app;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
+import com.thefour.newsrecommender.app.service.NewsRecommenderService;
 
 /**
  * Created by Quang Quang on 10/12/2015.
@@ -15,5 +20,17 @@ public class Utilities {
             return true;
         }
         return false;
+    }
+    public static void updateListNews(Context c){
+        String serverNewsUpdateUrl = c.getString(R.string.update_list_news_by_category_id);
+
+        Intent syncNRService = new Intent(c,NewsRecommenderService.class);
+        syncNRService.putExtra(NewsRecommenderService.URL_SERVER,serverNewsUpdateUrl);
+        //c.startService(syncNRService);
+        PendingIntent pendingIntent = PendingIntent.getService(c,101,syncNRService,PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager alarmManager =(AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME,5000,pendingIntent);
+
+
     }
 }

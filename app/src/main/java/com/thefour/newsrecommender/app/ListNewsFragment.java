@@ -186,13 +186,14 @@ public class ListNewsFragment extends Fragment implements LoaderManager.LoaderCa
                             //Do pagination.. i.e. fetch new data
                             //Toast.makeText(getContext(), "loading is done", Toast.LENGTH_SHORT).show();
                             if (Utilities.isOnline(getContext())) {
-                                UpdateListNewsTask updateListNews = new UpdateListNewsTask(getContext());
-                                String url = getContext().getString(R.string.update_list_news_by_category_id);
+                                //UpdateListNewsTask updateListNews = new UpdateListNewsTask(getContext());
+                                //String url = getContext().getString(R.string.update_list_news_by_category_id);
 //                                url = url.replaceAll("categoryid=0", "categoryid=" + Integer.toString(mCategoryId));
 //                                url = url.replaceAll("offset=0", "offset=" + Integer.toString(totalItemCount));
                                 //Toast.makeText(getContext(),url,Toast.LENGTH_SHORT).show();
-                                updateListNews.execute(url);
-                                Log.d(LOG_TAG, "update category url: " + url);
+                                //updateListNews.execute(url);
+                                Utilities.updateListNews(getActivity());
+                                Log.d(LOG_TAG, "end list: ");
                             } else {
                                 Toast.makeText(getContext(), getContext().getString(R.string.no_internet_connection_message), Toast.LENGTH_SHORT).show();
                                 mLoadingMore = false;

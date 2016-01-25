@@ -36,6 +36,7 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.thefour.newsrecommender.app.data.NewsContract;
+import com.thefour.newsrecommender.app.service.NewsRecommenderService;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -190,17 +191,21 @@ public class Main2Activity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.action_update) {
-            UpdateCategoriesTask updateCategoriesTask = new UpdateCategoriesTask(this);
-            String serverNewsUpdateUrl = getString(R.string.update_list_news_by_category_id);
-            String serverCategoriesUpdateUrl = getString(R.string.update_categories_url);
-            //updateCategoriesTask.execute("http://10.0.2.2:8080/RankedListNews/categories");
-            updateCategoriesTask.execute(serverCategoriesUpdateUrl);
-            UpdateListNewsTask updateTask = new UpdateListNewsTask(this);
-            //updateTask.execute("http://10.0.2.2:8080/RankedListNews/toprankedlistnews?offset=0&limit=75");
-            updateTask.execute(serverNewsUpdateUrl);
-//            updateTask.execute("http://10.0.2.2:8080/RankedListNews/toprankedlistnews?offset=100&limit=100");
-//            updateTask.execute("http://10.0.2.2:8080/RankedListNews/toprankedlistnews?offset=200&limit=100");
-
+//            UpdateCategoriesTask updateCategoriesTask = new UpdateCategoriesTask(this);
+//            String serverNewsUpdateUrl = getString(R.string.update_list_news_by_category_id);
+//            String serverCategoriesUpdateUrl = getString(R.string.update_categories_url);
+//            //updateCategoriesTask.execute("http://10.0.2.2:8080/RankedListNews/categories");
+//            //updateCategoriesTask.execute(serverCategoriesUpdateUrl);
+//            //UpdateListNewsTask updateTask = new UpdateListNewsTask(this);
+//            //updateTask.execute("http://10.0.2.2:8080/RankedListNews/toprankedlistnews?offset=0&limit=75");
+//            //updateTask.execute(serverNewsUpdateUrl);
+////            updateTask.execute("http://10.0.2.2:8080/RankedListNews/toprankedlistnews?offset=100&limit=100");
+////            updateTask.execute("http://10.0.2.2:8080/RankedListNews/toprankedlistnews?offset=200&limit=100");
+//
+//            Intent syncNRService = new Intent(this,NewsRecommenderService.class);
+//            syncNRService.putExtra(NewsRecommenderService.URL_SERVER,serverNewsUpdateUrl);
+//            startService(syncNRService);
+            Utilities.updateListNews(this);
         }
 
         return super.onOptionsItemSelected(item);
