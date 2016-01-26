@@ -33,4 +33,8 @@
     <string name="no_internet_connection_message">Vui lòng kiểm tra lại kết nối internet</string>
     <string name="title_activity_main2">News Recommender</string>
     <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- SyncAdapter related -->
+    <string name="sync_account_type">newsrecommender.thefour.com</string>
+    <string name="content_authority">com.thefour.newsrecommender.app</string>
 </resources>

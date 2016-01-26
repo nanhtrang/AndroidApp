@@ -5,6 +5,13 @@
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Permissions required by the sync adapter -->
+    <uses-permission
+        android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission
+        android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
 
     <application
         android:allowBackup="true"
@@ -23,6 +30,8 @@
 
         <provider
             android:name=".data.NewsProvider"
+            android:exported="false"
+            android:syncable="true"
             android:authorities="com.thefour.newsrecommender.app" />
 
         <activity
@@ -47,8 +56,32 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".service.NewsRecommenderService"></service>
-        <receiver android:name=".service.NewsRecommenderService$AlarmReceiver"></receiver>
+        <!--<service android:name=".service.NewsRecommenderService"></service>-->
+        <!--<receiver android:name=".service.NewsRecommenderService$AlarmReceiver"></receiver>-->
+
+        <!-- SyncAdapter's dummy authentication service -->
+        <service android:name=".sync.NewsRecommenderAuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+
+        <!-- The SyncAdapter service -->
+        <service
+            android:name=".sync.NewsRecommenderSyncService"
+            android:exported="true"
+            >
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+        </service>
+
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data
