@@ -36,6 +36,7 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.thefour.newsrecommender.app.data.NewsContract;
+import com.thefour.newsrecommender.app.sync.NewsSyncAdapter;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -147,6 +148,8 @@ public class Main2Activity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+        NewsSyncAdapter.initializeSyncAdapter(this);
     }
 
     @Override
