@@ -42,7 +42,7 @@ public class NewsSyncAdapter extends AbstractThreadedSyncAdapter{
 
     // Interval at which to sync with the weather, in milliseconds.
     // 60 seconds (1 minute) * 180 = 3 hours
-    public static final int SYNC_INTERVAL = 10;
+    public static final int SYNC_INTERVAL = 60*180;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
 
     public NewsSyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
